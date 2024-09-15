@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/dg-airlines/src",
+  "compilerOptions": {
+    "deleteOutDir": true,
+    "webpack": true,
+    "tsConfigPath": "apps/dg-airlines/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/dg-airlines",
+  "projects": {
+    "dg-airlines": {
+      "type": "application",
+      "root": "apps/dg-airlines",
+      "entryFile": "main",
+      "sourceRoot": "apps/dg-airlines/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/dg-airlines/tsconfig.app.json"
+      }
+    },
+    "flights": {
+      "type": "application",
+      "root": "apps/flights",
+      "entryFile": "main",
+      "sourceRoot": "apps/flights/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/flights/tsconfig.app.json"
+      }
+    },
+    "payments": {
+      "type": "application",
+      "root": "apps/payments",
+      "entryFile": "main",
+      "sourceRoot": "apps/payments/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/payments/tsconfig.app.json"
+      }
+    },
+    "bookings": {
+      "type": "application",
+      "root": "apps/bookings",
+      "entryFile": "main",
+      "sourceRoot": "apps/bookings/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/bookings/tsconfig.app.json"
+      }
+    }
+  }
+}

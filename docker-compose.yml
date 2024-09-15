@@ -1,0 +1,57 @@
+version: '3.8'
+services:
+  # Servicio para RabbitMQ
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    container_name: "rabbitmq"
+    ports:
+      - "5672:5672"  # Para la comunicación entre microservicios
+      - "15672:15672"  # Para acceder a la interfaz web de RabbitMQ
+    environment:
+      RABBITMQ_DEFAULT_USER: "guest"
+      RABBITMQ_DEFAULT_PASS: "guest"
+
+  # Servicio para el microservicio Flights
+  flights:
+    build:
+      # context: ./apps/flights  # La ruta al directorio donde se encuentra el Dockerfile de Flights
+      context: .  # Carpeta raíz del proyecto
+      dockerfile: ./apps/flights/Dockerfile  # Ruta al Dockerfile específico del microservicio Service1
+    container_name: "flights_service"
+    restart: always
+    ports:
+      - "3001:3000"  # Puerto expuesto en el host
+    environment:
+      RABBITMQ_URL: "amqp://rabbitmq:5672"
+    depends_on:
+      - rabbitmq
+
+  # Servicio para el microservicio Bookings
+  bookings:
+    build:
+      # context: ./apps/bookings  # La ruta al directorio donde se encuentra el Dockerfile de Bookings
+      context: .  # Carpeta raíz del proyecto
+      dockerfile: ./apps/bookings/Dockerfile  # Ruta al Dockerfile específico del microservicio Service1
+    container_name: "bookings_service"
+    restart: always
+    ports:
+      - "3002:3000"  # Puerto expuesto en el host
+    environment:
+      RABBITMQ_URL: "amqp://rabbitmq:5672"
+    depends_on:
+      - rabbitmq
+
+  # Servicio para el microservicio Payments
+  payments:
+    build:
+      # context: ./apps/payments  # La ruta al directorio donde se encuentra el Dockerfile de Payments
+      context: .  # Carpeta raíz del proyecto
+      dockerfile: ./apps/payments/Dockerfile  # Ruta al Dockerfile específico del microservicio Service1
+    container_name: "payments_service"
+    restart: always
+    ports:
+      - "3003:3000"  # Puerto expuesto en el host
+    environment:
+      RABBITMQ_URL: "amqp://rabbitmq:5672"
+    depends_on:
+      - rabbitmq
