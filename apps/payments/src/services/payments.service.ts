@@ -9,6 +9,11 @@ export class PaymentsService {
 
   authorizePayment(request: AuthorizePaymentRequest) {
     console.log(request)
+
+    if (request.cardNumber === '123123123') {
+      return { authorize: false };
+    }
+
     return { authorize: true };
   }
 }

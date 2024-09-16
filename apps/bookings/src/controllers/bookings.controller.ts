@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Post } from '@nestjs/common';
 import { BookingsService } from '../services/bookings.service';
 import { CreateBookingDto } from '../dtos';
 
@@ -13,6 +13,14 @@ export class BookingsController {
 
   @Post()
   async createBooking(@Body() body: CreateBookingDto) {
-    await this.bookingsService.createBooking(body);
+    try {
+      const bookingId = await this.bookingsService.createBooking(body);
+      return {
+        bookingId
+      }
+    } catch (err) {
+      console.log(err)
+      throw new HttpException(err, HttpStatus.FORBIDDEN);
+    }
   }
 }

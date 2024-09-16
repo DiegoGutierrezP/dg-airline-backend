@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Patch, Put, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Put, Query } from '@nestjs/common';
 import { FlightsService } from '../services/flights.service';
 import { EventPattern, MessagePattern, Payload } from '@nestjs/microservices';
 import { CheckSeatAvailabilityRequest, CheckSeatAvailabilityResponse, FlightsFilterRequest, UpdateAvailableSeatsRequest } from '../dtos';
@@ -11,6 +11,11 @@ export class FlightsController {
   @Get()
   getFlights(@Query() query: FlightsFilterRequest) {
     return this.flightsService.getFlights(query);
+  }
+
+  @Get('/:id')//for test purposes
+  getFlight(@Param('id') id: string) {
+    return this.flightsService.getFlight(id);
   }
 
   @Patch('/available-seats')//for test purposes

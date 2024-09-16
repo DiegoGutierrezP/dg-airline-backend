@@ -14,7 +14,8 @@ export interface CheckSeatAvailabilityResponse {
 
 export interface AuthorizePaymentRequest {
     bookingId: string,
-    amount: number
+    amount: number,
+    cardNumber: string,
 }
 
 export interface AuthorizePaymentResponse {
@@ -41,10 +42,14 @@ export class CreateBookingDto {
     @IsNumber()
     readonly totalPrice: number;
 
-    @IsArray()
-    @ValidateNested({ each: true })
-    @Type(() => PassengerDto)  // Transforma el array de objetos a la clase PassengerDto
-    readonly passengers: PassengerDto[];
+    @IsNotEmpty()
+    @IsString()
+    readonly cardNumber: string;
+
+    // @IsArray()
+    // @ValidateNested({ each: true })
+    // @Type(() => PassengerDto)  // Transforma el array de objetos a la clase PassengerDto
+    // readonly passengers: PassengerDto[];
 }
 
 export class PassengerDto {

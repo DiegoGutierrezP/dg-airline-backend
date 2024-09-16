@@ -37,16 +37,17 @@ export class BookingsService {
     ))
 
     //create booking passenger
-    for (const pass of body.passengers) {
-      this.passengerRepository.create(new Passenger(
-        booking.id,
-        pass.seatNumber,
-        pass.name
-      ))
-    }
+    // for (const pass of body.passengers) {
+    //   this.passengerRepository.create(new Passenger(
+    //     booking.id,
+    //     pass.seatNumber,
+    //     pass.name
+    //   ))
+    // }
 
     const isAuthorized = await this.paymentsService.authorizePayment({
       bookingId: booking.id,
+      cardNumber: body.cardNumber,
       amount: body.totalPrice
     });
 
@@ -63,6 +64,10 @@ export class BookingsService {
 
     if (isAuthorized) {
       this.flightsService.updateAvailableSeats(flight._id, booking.seats);
+    } else {
+      throw new Error('Número de tarjeta invalida');
     }
+
+    return booking.id
   }
 }

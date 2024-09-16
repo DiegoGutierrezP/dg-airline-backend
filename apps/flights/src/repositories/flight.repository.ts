@@ -19,9 +19,19 @@ export class FlightRepository {
             'Arequipa',
             new Date('2024-09-21T10:00:00'),
             new Date('2024-09-21T11:30:00'),
+            105,
+            29,
+            '2'
+        ),
+        new Flight(
+            'LA2541',
+            'Lima',
+            'Arequipa',
+            new Date('2024-09-21T14:00:00'),
+            new Date('2024-09-21T15:30:00'),
             100,
             50,
-            '2'
+            '23'
         ),
         new Flight(
             'LA2765',
@@ -79,7 +89,7 @@ export class FlightRepository {
                 if (filterValue !== undefined && filterValue !== null) {
                     // Si el valor es una fecha, hacer comparación especial para fechas
                     if (flightValue instanceof Date && filterValue instanceof Date) {
-                        return flightValue.getTime() === filterValue.getTime();
+                        return flightValue.setHours(0, 0, 0, 0) === filterValue.setHours(0, 0, 0, 0);
                     }
                     return flightValue === filterValue;
                 }
